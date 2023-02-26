@@ -8,6 +8,7 @@ end
 
 function love.update(dt)
     Player:MovePlayer(400,dt)
+    Player:Shoot()
     EnemyOne:CheckEnemy()
     EnemyOne:MoveEnemy(200,dt)
 end

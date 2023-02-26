@@ -21,4 +21,9 @@ function PlayerModule.Player:MovePlayer(steps, deltaTime)
     end
 end
 
+function PlayerModule.Player:Shoot()
+    if love.keyboard.isDown('space') then
+        print("Shoot")
+    end
+end
 return PlayerModule
