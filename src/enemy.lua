@@ -3,15 +3,18 @@ EnemyModule.Enemy = {}
 EnemyModule.MetaEnemy = {}
 EnemyModule.MetaEnemy.__index = EnemyModule.Enemy
 
+-- Variables
+
+-- Enemy Position
 EnemyModule.Enemy.y = 0
 EnemyModule.Enemy.x = 0
 
-function EnemyModule.Enemy:CheckEnemy()
-    if (self.y > 500) then
-        self.y = 0
-        self.x = math.random(0,1000)
-    end
-end
+-- Other Variables
+EnemyModule.Enemy.speed = 200
+
+-- Functions
+
+-- Initializer
 function EnemyModule.Enemy:new(name)
     local instance = setmetatable({}, EnemyModule.MetaEnemy)
     instance.name = name
@@ -19,8 +22,17 @@ function EnemyModule.Enemy:new(name)
     return instance
 end
 
-function EnemyModule.Enemy:MoveEnemy(steps, deltaTime)
-    self.y = self.y + steps * deltaTime
+-- Check if the Enemy should be moved
+function EnemyModule.Enemy:CheckEnemy()
+    if (self.y > 500) then
+        self.y = 0
+        self.x = math.random(0,1000)
+    end
+end
+
+-- Move the enemy
+function EnemyModule.Enemy:MoveEnemy(deltaTime)
+    self.y = self.y + self.speed * deltaTime
 end
 
 return EnemyModule
