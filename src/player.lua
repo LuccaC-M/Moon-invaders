@@ -1,7 +1,6 @@
 PlayerModule = {}
 PlayerModule.Player = {}
-PlayerModule.MetaPlayer = {}
-PlayerModule.MetaPlayer.__index = PlayerModule.Player
+PlayerModule.Player.__index = PlayerModule.Player
 
 -- Player Variables --
 
@@ -20,9 +19,8 @@ PlayerModule.Player.shooting = false
 -- Functions
 
 -- Player initializer
-function PlayerModule.Player:new(name)
-    local instance = setmetatable({}, PlayerModule.MetaPlayer)
-    instance.name = name
+function PlayerModule.Player:new()
+    local instance = setmetatable({},PlayerModule.Player)
     return instance
 end
 

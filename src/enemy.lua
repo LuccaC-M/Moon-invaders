@@ -1,7 +1,6 @@
 EnemyModule = {}
 EnemyModule.Enemy = {}
-EnemyModule.MetaEnemy = {}
-EnemyModule.MetaEnemy.__index = EnemyModule.Enemy
+EnemyModule.Enemy.__index = EnemyModule.Enemy
 
 -- Variables
 
@@ -15,9 +14,8 @@ EnemyModule.Enemy.speed = 200
 -- Functions
 
 -- Initializer
-function EnemyModule.Enemy:new(name)
-    local instance = setmetatable({}, EnemyModule.MetaEnemy)
-    instance.name = name
+function EnemyModule.Enemy:new()
+    local instance = setmetatable({},EnemyModule.Enemy)
     instance.y = math.random(0,1000)
     return instance
 end
