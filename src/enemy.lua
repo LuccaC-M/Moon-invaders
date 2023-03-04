@@ -10,6 +10,7 @@ EnemyModule.Enemy.x = 0
 
 -- Other Variables
 EnemyModule.Enemy.speed = 200
+EnemyModule.Enemy.alive = true
 
 -- Functions
 

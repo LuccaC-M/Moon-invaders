@@ -5,17 +5,22 @@ function love.load()
 --  Initialize the Player & Enemy
     Player = PlayerModule.Player:new()
     EnemyOne = EnemyModule.Enemy:new()
---  Global variables
-    ShotKill = false
 end
 
 function love.update(dt)
     Player:MovePlayer(dt)
     Player:PosShoot()
     Player:Shoot(dt)
-    EnemyOne:CheckEnemy()
-    EnemyOne:MoveEnemy(dt)
-    ShotKill = DetectCollision(Player.shotX, 15, Player.shotY, 25, EnemyOne.x, 50, EnemyOne.y, 50)
+    if (EnemyOne.alive) then
+        EnemyOne:CheckEnemy()
+        EnemyOne:MoveEnemy(dt)
+    end
+--  if the shot collides with the Enemy then kill the Enemy
+    if (DetectCollision(Player.shotX, 15, Player.shotY, 25, EnemyOne.x, 50, EnemyOne.y, 50)) then
+        EnemyOne.alive = false
+        EnemyOne.x = 10000
+        EnemyOne.y = 10000
+    end
 end
 
 function love.draw()
@@ -24,7 +29,7 @@ function love.draw()
 --  Shot
     love.graphics.rectangle("fill", Player.shotX, Player.shotY, 15, 25)
 --  Enemy
-    if (not ShotKill) then
+    if (EnemyOne.alive) then
         love.graphics.rectangle("line", EnemyOne.x, EnemyOne.y, 50, 50)
     end
 end
