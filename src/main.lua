@@ -15,7 +15,7 @@ function love.update(dt)
     Player:Shoot(dt)
     EnemyOne:CheckEnemy()
     EnemyOne:MoveEnemy(dt)
-    ShotKill = DetectCollision(Player.shotX, 15, EnemyOne.x, 50, Player.shotY, EnemyOne.y, 50)
+    ShotKill = DetectCollision(Player.shotX, 15, Player.shotY, 25, EnemyOne.x, 50, EnemyOne.y, 50)
 end
 
 function love.draw()
@@ -29,12 +29,6 @@ function love.draw()
     end
 end
 
-function DetectCollision(ax, awidth, bx, bwidth, ay, by, bheight)
-    if (ax + awidth > bx and ax + awidth <= bx + bwidth) then
-        if (ay > by - bheight) then
-            return true
-        end
-    end
-
-    return false
+function DetectCollision(ax, awidth, ay, aheight, bx, bwidth, by, bheight)
+  return ax < bx+bwidth and bx < ax+awidth and ay < by+bheight and by < ay+aheight
 end
