@@ -34,6 +34,8 @@ function love.draw()
     if (EnemyOne.alive) then
         love.graphics.rectangle("line", EnemyOne.x, EnemyOne.y, 50, 50)
     end
+--  Floor
+    love.graphics.rectangle("line", -10, 455, 1100, 150)
 end
 
 function DetectCollision(ax, awidth, ay, aheight, bx, bwidth, by, bheight)
