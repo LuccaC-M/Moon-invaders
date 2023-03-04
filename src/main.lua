@@ -5,6 +5,8 @@ function love.load()
 --  Initialize the Player & Enemy
     Player = PlayerModule.Player:new()
     EnemyOne = EnemyModule.Enemy:new()
+--  Global Variables
+    PlayerHasLost = false
 end
 
 function love.update(dt)
@@ -14,6 +16,9 @@ function love.update(dt)
     if (EnemyOne.alive) then
         EnemyOne:CheckEnemy()
         EnemyOne:MoveEnemy(dt)
+    end
+    if (DetectCollision(-10, 1100, 455, 150, EnemyOne.x, 50, EnemyOne.y, 50)) then
+        PlayerHasLost = true
     end
 --  if the shot collides with the Enemy then kill the Enemy
     if (DetectCollision(Player.shotX, 15, Player.shotY, 25, EnemyOne.x, 50, EnemyOne.y, 50)) then
@@ -36,6 +41,9 @@ function love.draw()
     end
 --  Floor
     love.graphics.rectangle("line", -10, 455, 1100, 150)
+    if (PlayerHasLost) then
+        love.graphics.print("You Lose")
+    end
 end
 
 function DetectCollision(ax, awidth, ay, aheight, bx, bwidth, by, bheight)
