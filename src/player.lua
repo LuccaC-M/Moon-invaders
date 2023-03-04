@@ -10,7 +10,7 @@ PlayerModule.Player.x = love.graphics.getWidth() / 2
 
 -- Shot Position 
 PlayerModule.Player.shotX = 50
-PlayerModule.Player.shotY = 50
+PlayerModule.Player.shotY = 10000
 
 -- Other Variables
 PlayerModule.Player.speed = 400
@@ -28,7 +28,7 @@ end
 function PlayerModule.Player:PosShoot()
     if (not self.shooting) then
         self.shotX = self.x + 20
-        self.shotY = self.y
+        self.shotY = 10000
     end
 end
 
@@ -51,8 +51,9 @@ end
 
 function PlayerModule.Player:Shoot(deltaTime)
 --  if space if is pressed then start shooting  
-    if love.keyboard.isDown('space') then
+    if (love.keyboard.isDown('space') and self.shotY >= 1000) then
         self.shooting = true
+        self.shotY = self.y
     end
 --  if the shot is outside the screen change to not shooting state
     if (self.shotY < -10) then

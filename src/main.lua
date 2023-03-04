@@ -20,6 +20,8 @@ function love.update(dt)
         EnemyOne.alive = false
         EnemyOne.x = 10000
         EnemyOne.y = 10000
+        Player.shotY = 10000
+        Player.shooting = false
     end
 end
 
