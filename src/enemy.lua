@@ -21,6 +21,25 @@ function EnemyModule.Enemy:new()
     return instance
 end
 
+-- This functions makes the enemy work & do stuff
+function EnemyModule.Enemy:Attack(deltaTime, Player)
+    if (self.alive) then
+        self:CheckEnemy()
+        self:MoveEnemy(deltaTime)
+    end
+--  if the enemy collides with the Floor the Player looses
+    if (DetectCollision(-10, 1100, 455, 150, self.x, 50, self.y, 50)) then
+        PlayerHasLost = true
+    end
+--  if the shot collides with the Enemy then kill the Enemy
+    if (DetectCollision(Player.shotX, 15, Player.shotY, 25, self.x, 50, self.y, 50)) then
+        self.alive = false
+        self.x = 10000
+        self.y = 10000
+        Player.shotY = 10000
+        Player.shooting = false
+    end
+end
 -- Check if the Enemy should be moved
 function EnemyModule.Enemy:CheckEnemy()
     if (self.y > 500) then
@@ -31,7 +50,9 @@ end
 
 -- Move the enemy
 function EnemyModule.Enemy:MoveEnemy(deltaTime)
-    self.y = self.y + self.speed * deltaTime
+    if (self.alive) then
+        self.y = self.y + self.speed * deltaTime
+    end
 end
 
 return EnemyModule
