@@ -22,7 +22,7 @@ EnemyModule.Enemy.alive = true
 -- Initializer
 function EnemyModule.Enemy:new()
     local instance = setmetatable({},EnemyModule.Enemy)
-    instance.y = math.random(0,1000)
+    instance.x = math.random(0,ScreenWidth-50)
     return instance
 end
 

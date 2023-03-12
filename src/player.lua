@@ -7,8 +7,8 @@ PlayerModule.Player.__index = PlayerModule.Player
 -- Player Variables --
 
 -- Player Position
-PlayerModule.Player.y = 400
-PlayerModule.Player.x = love.graphics.getWidth() / 2
+PlayerModule.Player.y = 0
+PlayerModule.Player.x = 0
 
 -- bullets array
 PlayerModule.Player.bullets = {}
@@ -22,17 +22,20 @@ PlayerModule.Player.height = 50
 -- Functions
 
 -- Player initializer
-function PlayerModule.Player:new()
-    return setmetatable({},PlayerModule.Player)
+function PlayerModule.Player:new(posX, posY)
+    local instance = setmetatable({},PlayerModule.Player)
+    instance.x = posX
+    instance.y = posY
+    return instance
 end
 
 -- Move the Player depending on input & position
 function PlayerModule.Player:MovePlayer(deltaTime)
 --  Incase that the player is offscreen teleport him to the other side
-    if (self.x <= -60) then
-        self.x = 800
-    elseif (self.x >= 800) then
-        self.x = -60
+    if (self.x <= -10) then
+        self.x = ScreenWidth+10
+    elseif (self.x >= ScreenWidth+10) then
+        self.x = -10
     end
 --  Move if d or a has been pressed in the keyboard
     if love.keyboard.isDown('d') then

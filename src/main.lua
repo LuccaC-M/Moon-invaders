@@ -2,8 +2,17 @@ EnemyModule = require("enemy")
 PlayerModule = require("player")
 
 function love.load()
+--  Initialize Fullscreen
+    success = love.window.setFullscreen(true)
+--  Exit the game if not successful
+    if not success then
+        print("Fullscreen not successful!\n Exiting...")
+        love.event.quit(1)
+    end
+--  Get screen dimentions & window properties
+    ScreenWidth, ScreenHeight, ScreenFlags = love.window.getMode()
 --  Initialize the Player & Enemy
-    Player = PlayerModule.Player:new()
+    Player = PlayerModule.Player:new(ScreenWidth / 2,ScreenHeight - 100)
     EnemyManger = EnemyModule.EnemyManager:new() -- Yep, french people, Enemies are eating
     EnemyManger:GenerateNewEnemy()
     Timer = 1
@@ -30,7 +39,7 @@ function love.draw()
         love.graphics.rectangle("line", v.x, v.y, 50, 50)
     end
 --  Floor
-    love.graphics.rectangle("line", -10, 455, 1100, 150)
+    love.graphics.line(-10, ScreenHeight-40, ScreenWidth+10, ScreenHeight-40)
     if (PlayerHasLost) then
         love.graphics.print("You Lose")
     end
