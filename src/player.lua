@@ -10,12 +10,13 @@ PlayerModule.Player.__index = PlayerModule.Player
 PlayerModule.Player.y = 0
 PlayerModule.Player.x = 0
 
--- bullets array
+-- bullets
 PlayerModule.Player.bullets = {}
+PlayerModule.Player.canShoot = true
+PlayerModule.Player.bulletSpeed = 400
 
 -- Other Variables
 PlayerModule.Player.speed = 400
-PlayerModule.Player.canShoot = true
 PlayerModule.Player.width = 50
 PlayerModule.Player.height = 50
 
@@ -62,7 +63,7 @@ function PlayerModule.Player:Shoot(deltaTime)
         if v.y <= -10 then
             table.remove(self.bullets, i)
         else
-            v.y = v.y - 200 * deltaTime
+            v.y = v.y - self.bulletSpeed * deltaTime
         end
     end
 end
