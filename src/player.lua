@@ -1,3 +1,5 @@
+require("point")
+
 PlayerModule = {}
 PlayerModule.Player = {}
 PlayerModule.Player.__index = PlayerModule.Player
@@ -8,10 +10,9 @@ PlayerModule.Player.__index = PlayerModule.Player
 PlayerModule.Player.y = 400
 PlayerModule.Player.x = love.graphics.getWidth() / 2
 
--- Shot Position 
-PlayerModule.Player.shotX = 50
-PlayerModule.Player.shotY = 10000
-
+-- bullets array
+PlayerModule.Player.bullets = {}
+PlayerModule.Player.bullets[1] = PointModule.Point:new(0,0)
 -- Other Variables
 PlayerModule.Player.speed = 400
 PlayerModule.Player.shooting = false
@@ -20,15 +21,14 @@ PlayerModule.Player.shooting = false
 
 -- Player initializer
 function PlayerModule.Player:new()
-    local instance = setmetatable({},PlayerModule.Player)
-    return instance
+    return setmetatable({},PlayerModule.Player)
 end
 
 -- Position the shoot inside the player to be "invisible"
 function PlayerModule.Player:PosShoot()
     if (not self.shooting) then
-        self.shotX = self.x + 20
-        self.shotY = 10000
+        self.bullets[1].x = self.x + 20
+        self.bullets[1].y = 10000
     end
 end
 
@@ -51,17 +51,17 @@ end
 
 function PlayerModule.Player:Shoot(deltaTime)
 --  if space if is pressed then start shooting  
-    if (love.keyboard.isDown('space') and self.shotY >= 1000) then
+    if (love.keyboard.isDown('space') and self.bullets[1].y >= 1000) then
         self.shooting = true
-        self.shotY = self.y
+        self.bullets[1].y = self.y
     end
 --  if the shot is outside the screen change to not shooting state
-    if (self.shotY < -10) then
+    if (self.bullets[1].y < -10) then
         self.shooting = false
     end
 --  move the shot if it is in the shooting state
     if(self.shooting) then
-        self.shotY = self.shotY - 200 * deltaTime
+        self.bullets[1].y = self.bullets[1].y - 200 * deltaTime
     end
 end
 

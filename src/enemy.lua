@@ -32,11 +32,11 @@ function EnemyModule.Enemy:Attack(deltaTime, Player)
         PlayerHasLost = true
     end
 --  if the shot collides with the Enemy then kill the Enemy
-    if (DetectCollision(Player.shotX, 15, Player.shotY, 25, self.x, 50, self.y, 50)) then
+    if (DetectCollision(Player.bullets[1].x, 15, Player.bullets[1].y, 25, self.x, 50, self.y, 50)) then
         self.alive = false
         self.x = 10000
         self.y = 10000
-        Player.shotY = 10000
+        Player.bullets[1].y = 10000
         Player.shooting = false
     end
 end

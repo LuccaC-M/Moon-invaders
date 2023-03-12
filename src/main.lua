@@ -22,7 +22,7 @@ function love.draw()
 --  Player
     love.graphics.rectangle("fill", Player.x, Player.y, 50, 50)
 --  Shot
-    love.graphics.rectangle("fill", Player.shotX, Player.shotY, 15, 25)
+    love.graphics.rectangle("fill", Player.bullets[1].x, Player.bullets[1].y, 15, 25)
 --  Enemies
     if (Enemies[1].alive) then
         love.graphics.rectangle("line", Enemies[1].x, Enemies[1].y, 50, 50)
