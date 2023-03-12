@@ -15,7 +15,7 @@ PlayerModule.Player.bullets = {}
 
 -- Other Variables
 PlayerModule.Player.speed = 400
-PlayerModule.Player.shooting = false
+PlayerModule.Player.canShoot = true
 PlayerModule.Player.width = 50
 PlayerModule.Player.height = 50
 
@@ -49,7 +49,8 @@ end
 
 function PlayerModule.Player:Shoot(deltaTime)
 --  if space if is pressed then start shooting  
-    if (love.keyboard.isDown('space')) then
+    if (love.keyboard.isDown('space') and Timer >= 1) then
+        Timer = 0
         self:CreateNewBullet()
     end
 --  move the shot if it is in the shooting state
