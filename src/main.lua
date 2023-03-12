@@ -5,16 +5,22 @@ function love.load()
 --  Initialize the Player & Enemy
     Player = PlayerModule.Player:new()
     Enemies = {EnemyModule.Enemy:new(), EnemyModule.Enemy:new()}
---    Enemies[1] = EnemyModule.Enemy:new()
+    Timer = 1
 --  Global Variables
     PlayerHasLost = false
 end
 
 function love.update(dt)
+    Timer = Timer + dt
     Player:MovePlayer(dt)
     Player:Shoot(dt)
-    Enemies[1]:Attack(dt, Player)
-    Enemies[2]:Attack(dt, Player)
+    for i,v in pairs(Enemies) do
+        if not v.alive then
+            table.remove(Enemies,i)
+        else
+            v:Attack(dt, Player)
+        end
+    end
 end
 
 function love.draw()
@@ -25,11 +31,8 @@ function love.draw()
         love.graphics.rectangle("fill", v.x, v.y, 15, 25)
     end
 --  Enemies
-    if (Enemies[1].alive) then
-        love.graphics.rectangle("line", Enemies[1].x, Enemies[1].y, 50, 50)
-    end
-    if (Enemies[2].alive) then
-        love.graphics.rectangle("line", Enemies[2].x, Enemies[2].y, 50, 50)
+    for _,v in pairs(Enemies) do
+        love.graphics.rectangle("line", v.x, v.y, 50, 50)
     end
 --  Floor
     love.graphics.rectangle("line", -10, 455, 1100, 150)
