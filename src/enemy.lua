@@ -14,7 +14,7 @@ EnemyModule.Enemy.y = 0
 EnemyModule.Enemy.x = 0
 
 -- Other Variables
-EnemyModule.Enemy.speed = 200
+EnemyModule.Enemy.speed = 100
 EnemyModule.Enemy.alive = true
 EnemyModule.Enemy.direction = 1
 -- Functions
