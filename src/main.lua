@@ -11,13 +11,13 @@ function love.load()
     end
 --  Get screen dimentions & window properties
     ScreenWidth, ScreenHeight, ScreenFlags = love.window.getMode()
---  Initialize the Player & Enemy
+--  Global Variables
+    Timer = 1
+    PlayerHasLost = false
+--  Initialize the Player & Enemies
     Player = PlayerModule.Player:new(ScreenWidth / 2,ScreenHeight - 100)
     EnemyManger = EnemyModule.EnemyManager:new() -- Yep, french people, Enemies are eating
-    EnemyManger:GenerateNewEnemy()
-    Timer = 1
---  Global Variables
-    PlayerHasLost = false
+    EnemyManger:StartNewLevel()
 end
 
 function love.update(dt)
