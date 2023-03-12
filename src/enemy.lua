@@ -20,9 +20,10 @@ EnemyModule.Enemy.direction = 1
 -- Functions
 
 -- Initializer
-function EnemyModule.Enemy:new()
+function EnemyModule.Enemy:new(posX, posY)
     local instance = setmetatable({},EnemyModule.Enemy)
-    instance.x = math.random(0,ScreenWidth-50)
+    instance.x = posX
+    instance.y = posY
     return instance
 end
 
@@ -72,6 +73,8 @@ EnemyModule.EnemyManager.__index = EnemyModule.EnemyManager
 
 -- Variables
 EnemyModule.EnemyManager.Enemies = {}
+EnemyModule.EnemyManager.EnemiesInY = 5
+EnemyModule.EnemyManager.EnemiesInX = 11
 
 -- Functions
 -- Initializer
@@ -79,9 +82,15 @@ function EnemyModule.EnemyManager:new()
     return setmetatable({}, EnemyModule.EnemyManager)
 end
 
+--[[ Initialize Enemies as a 2d array
+function EnemyModule.EnemyManager:InitEnemiesArray()
+    for i = 1, do
+        
+    end
+end]]
 -- Generate a new enemy & add to Enemies array
-function EnemyModule.EnemyManager:GenerateNewEnemy()
-    table.insert(self.Enemies, EnemyModule.Enemy:new())
+function EnemyModule.EnemyManager:GenerateNewEnemy(posX, posY)
+    table.insert(self.Enemies, EnemyModule.Enemy:new(posX, posY))
 end
 
 function EnemyModule.EnemyManager:EnemiesGoDown()
@@ -92,8 +101,23 @@ function EnemyModule.EnemyManager:EnemiesGoDown()
     end
 end
 
+function EnemyModule.EnemyManager:StartNewLevel()
+    for i = 0, self.EnemiesInX-1 do
+        local posY = ScreenHeight / 100
+        for j=0, self.EnemiesInY-1 do
+            posY = posY + 100
+            self:GenerateNewEnemy(i + (100*i), posY)
+        end
+    end
+end
 -- Remove dead Enemies & perform Attack function in alive enemies in the Enemies array
 function EnemyModule.EnemyManager:Invade(deltaTime, Player)
+    if #self.Enemies == 0 then
+        self:StartNewLevel()
+--      force the function to end
+        return 0
+    end
+
     for i,v in pairs(self.Enemies) do
         if not v.alive then
             table.remove(EnemyManger.Enemies,i)
