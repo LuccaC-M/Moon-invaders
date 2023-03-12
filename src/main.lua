@@ -4,7 +4,8 @@ PlayerModule = require("player")
 function love.load()
 --  Initialize the Player & Enemy
     Player = PlayerModule.Player:new()
-    Enemies = {EnemyModule.Enemy:new(), EnemyModule.Enemy:new()}
+    EnemyManger = EnemyModule.EnemyManager:new() -- Yep, french people, Enemies are eating
+    EnemyManger:GenerateNewEnemy()
     Timer = 1
 --  Global Variables
     PlayerHasLost = false
@@ -14,9 +15,9 @@ function love.update(dt)
     Timer = Timer + dt
     Player:MovePlayer(dt)
     Player:Shoot(dt)
-    for i,v in pairs(Enemies) do
+    for i,v in pairs(EnemyManger.Enemies) do
         if not v.alive then
-            table.remove(Enemies,i)
+            table.remove(EnemyManger.Enemies,i)
         else
             v:Attack(dt, Player)
         end
@@ -31,7 +32,7 @@ function love.draw()
         love.graphics.rectangle("fill", v.x, v.y, 15, 25)
     end
 --  Enemies
-    for _,v in pairs(Enemies) do
+    for _,v in pairs(EnemyManger.Enemies) do
         love.graphics.rectangle("line", v.x, v.y, 50, 50)
     end
 --  Floor

@@ -1,4 +1,9 @@
 EnemyModule = {}
+
+-----------------
+-- Enemy Class --
+-----------------
+
 EnemyModule.Enemy = {}
 EnemyModule.Enemy.__index = EnemyModule.Enemy
 
@@ -55,4 +60,32 @@ function EnemyModule.Enemy:MoveEnemy(deltaTime)
     end
 end
 
+-------------------------
+-- Enemy Manager Class --
+-------------------------
+-- This Idea Is inspired by Kofybrek's YouTube Video: https://youtube.com/watch?v=WfYNelQiQvc
+
+EnemyModule.EnemyManager = {}
+EnemyModule.EnemyManager.__index = EnemyModule.EnemyManager
+
+-- Variables
+EnemyModule.EnemyManager.Enemies = {}
+
+-- Functions
+-- Initializer
+function EnemyModule.EnemyManager:new()
+    return setmetatable({}, EnemyModule.EnemyManager)
+end
+
+-- Generate a new enemy & add to Enemies array
+function EnemyModule.EnemyManager:GenerateNewEnemy()
+    table.insert(self.Enemies, EnemyModule.Enemy:new())
+end
+
+-- Perform Attack function to all Enemies in the Enemies array
+function EnemyModule.EnemyManager:Invade(deltaTime, Player)
+    for _,v in pairs(self.Enemies) do
+        v:Attack(deltaTime, Player)
+    end
+end
 return EnemyModule
