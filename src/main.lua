@@ -31,7 +31,12 @@ function love.draw()
 --  Player
     love.graphics.rectangle("fill", Player.x, Player.y, Player.width, Player.height)
 --  bullets
+--  Player bullets
     for _,v in pairs(Player.bullets) do
+        love.graphics.rectangle("fill", v.x, v.y, 15, 25)
+    end
+--  Enemies bullets
+    for _,v in pairs(EnemyManger.bullets) do
         love.graphics.rectangle("fill", v.x, v.y, 15, 25)
     end
 --  Enemies

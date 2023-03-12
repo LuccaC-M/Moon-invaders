@@ -1,3 +1,5 @@
+require("point")
+
 EnemyModule = {}
 
 -----------------
@@ -16,6 +18,7 @@ EnemyModule.Enemy.x = 0
 -- Other Variables
 EnemyModule.Enemy.alive = true
 EnemyModule.Enemy.direction = 1
+
 -- Functions
 
 -- Initializer
@@ -26,7 +29,15 @@ function EnemyModule.Enemy:new(posX, posY)
     return instance
 end
 
--- This functions makes the enemy work & do stuff
+function EnemyModule.Enemy:Shoot()
+--  0.02% probability of enemy shooting per frame
+    if math.random(1, 5000) == 1 then
+        return PointModule.Point:new(self.x + 20, self.y)
+    else
+        return nil
+    end
+end
+-- This functions makes the enemy move, shoot & detect collisions
 function EnemyModule.Enemy:Attack(deltaTime, Player, EnemySpeed)
     local hasHitWall
     if (self.alive) then
@@ -46,7 +57,7 @@ function EnemyModule.Enemy:Attack(deltaTime, Player, EnemySpeed)
             self.y = 10000
         end
     end
-    return hasHitWall
+    return hasHitWall, self:Shoot()
 end
 -- Check if the Enemy has touched the wall  
 function EnemyModule.Enemy:CheckScreenWall()
@@ -75,6 +86,8 @@ EnemyModule.EnemyManager.Enemies = {}
 EnemyModule.EnemyManager.EnemiesInY = 5
 EnemyModule.EnemyManager.EnemiesInX = 11
 EnemyModule.EnemyManager.EnemySpeed = 75
+EnemyModule.EnemyManager.bullets = {}
+EnemyModule.EnemyManager.BulletSpeed = 5
 -- Functions
 -- Initializer
 function EnemyModule.EnemyManager:new()
@@ -98,9 +111,19 @@ function EnemyModule.EnemyManager:StartNewLevel()
     self.EnemySpeed = 75
     for i = 0, self.EnemiesInX-1 do
         local posY = ScreenHeight / 100
-        for j=0, self.EnemiesInY-1 do
+        for _=0, self.EnemiesInY-1 do
             posY = posY + 100
             self:GenerateNewEnemy(i + (100*i), posY)
+        end
+    end
+end
+
+function EnemyModule.EnemyManager:MoveBullets(deltaTime)
+    for i,v in pairs(self.bullets) do
+        if v.y > ScreenHeight then
+            table.remove(self.bullets, i)
+        else
+            v.y = v.y + self.BulletSpeed * deltaTime
         end
     end
 end
@@ -113,16 +136,19 @@ function EnemyModule.EnemyManager:Invade(deltaTime, Player)
     end
 
     for i,v in pairs(self.Enemies) do
+        local shouldGoDown
         if not v.alive then
             table.remove(EnemyManger.Enemies,i)
             self.EnemySpeed = math.min(self.EnemySpeed + 5, 250)
         else
-            local shouldGoDown = v:Attack(deltaTime, Player, self.EnemySpeed)
+            shouldGoDown, self.bullets[i] = v:Attack(deltaTime, Player, self.EnemySpeed)
             if shouldGoDown then
                 self:EnemiesGoDown()
             end
         end
     end
+
+    self:MoveBullets(deltaTime)
 end
 
 return EnemyModule
