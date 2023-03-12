@@ -43,19 +43,24 @@ function PlayerModule.Player:MovePlayer(deltaTime)
     end
 end
 
+-- Create a new bullet & add to bullets array
 function PlayerModule.Player:CreateNewBullet()
     table.insert(self.bullets, PointModule.Point:new(self.x + 20, self.y))
 end
 
 function PlayerModule.Player:Shoot(deltaTime)
---  if space if is pressed then start shooting  
+--  if space if is pressed then start create a new bullet  
     if (love.keyboard.isDown('space') and Timer >= 1) then
         Timer = 0
         self:CreateNewBullet()
     end
---  move the shot if it is in the shooting state
-    for _,v in pairs(self.bullets) do
-        v.y = v.y - 200 * deltaTime
+--  if the bullets are off screen remove them else move the bullets up
+    for i,v in pairs(self.bullets) do
+        if v.y <= -10 then
+            table.remove(self.bullets, i)
+        else
+            v.y = v.y - 200 * deltaTime
+        end
     end
 end
 -- 20
