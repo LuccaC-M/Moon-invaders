@@ -34,7 +34,7 @@ function EnemyModule.Enemy:Attack(deltaTime, Player)
         hasHitWall = self:CheckScreenWall()
     end
 --  if the enemy collides with the Floor the Player looses
-    if (DetectCollision(-10, 1100, 455, 150, self.x, 50, self.y, 50)) then
+    if (DetectCollision(-10, ScreenWidth+10, ScreenHeight-40, 1, self.x, 50, self.y, 50)) then
         PlayerHasLost = true
     end
     for _,v in pairs(Player.bullets) do
