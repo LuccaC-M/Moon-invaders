@@ -31,13 +31,13 @@ function EnemyModule.Enemy:Attack(deltaTime, Player)
     if (DetectCollision(-10, 1100, 455, 150, self.x, 50, self.y, 50)) then
         PlayerHasLost = true
     end
---  if the shot collides with the Enemy then kill the Enemy
-    if (DetectCollision(Player.bullets[1].x, 15, Player.bullets[1].y, 25, self.x, 50, self.y, 50)) then
-        self.alive = false
-        self.x = 10000
-        self.y = 10000
-        Player.bullets[1].y = 10000
-        Player.shooting = false
+    for _,v in pairs(Player.bullets) do
+    --  if the shot collides with the Enemy then kill the Enemy
+        if (DetectCollision(v.x, 15, v.y, 25, self.x, 50, self.y, 50)) then
+            self.alive = false
+            self.x = 10000
+            self.y = 10000
+        end
     end
 end
 -- Check if the Enemy should be moved

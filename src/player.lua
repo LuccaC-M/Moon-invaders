@@ -12,24 +12,18 @@ PlayerModule.Player.x = love.graphics.getWidth() / 2
 
 -- bullets array
 PlayerModule.Player.bullets = {}
-PlayerModule.Player.bullets[1] = PointModule.Point:new(0,0)
+
 -- Other Variables
 PlayerModule.Player.speed = 400
 PlayerModule.Player.shooting = false
+PlayerModule.Player.width = 50
+PlayerModule.Player.height = 50
 
 -- Functions
 
 -- Player initializer
 function PlayerModule.Player:new()
     return setmetatable({},PlayerModule.Player)
-end
-
--- Position the shoot inside the player to be "invisible"
-function PlayerModule.Player:PosShoot()
-    if (not self.shooting) then
-        self.bullets[1].x = self.x + 20
-        self.bullets[1].y = 10000
-    end
 end
 
 -- Move the Player depending on input & position
@@ -49,20 +43,19 @@ function PlayerModule.Player:MovePlayer(deltaTime)
     end
 end
 
-function PlayerModule.Player:Shoot(deltaTime)
---  if space if is pressed then start shooting  
-    if (love.keyboard.isDown('space') and self.bullets[1].y >= 1000) then
-        self.shooting = true
-        self.bullets[1].y = self.y
-    end
---  if the shot is outside the screen change to not shooting state
-    if (self.bullets[1].y < -10) then
-        self.shooting = false
-    end
---  move the shot if it is in the shooting state
-    if(self.shooting) then
-        self.bullets[1].y = self.bullets[1].y - 200 * deltaTime
-    end
+function PlayerModule.Player:CreateNewBullet()
+    table.insert(self.bullets, PointModule.Point:new(self.x + 20, self.y))
 end
 
+function PlayerModule.Player:Shoot(deltaTime)
+--  if space if is pressed then start shooting  
+    if (love.keyboard.isDown('space')) then
+        self:CreateNewBullet()
+    end
+--  move the shot if it is in the shooting state
+    for _,v in pairs(self.bullets) do
+        v.y = v.y - 200 * deltaTime
+    end
+end
+-- 20
 return PlayerModule

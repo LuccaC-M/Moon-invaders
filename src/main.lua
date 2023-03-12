@@ -12,7 +12,6 @@ end
 
 function love.update(dt)
     Player:MovePlayer(dt)
-    Player:PosShoot()
     Player:Shoot(dt)
     Enemies[1]:Attack(dt, Player)
     Enemies[2]:Attack(dt, Player)
@@ -20,9 +19,11 @@ end
 
 function love.draw()
 --  Player
-    love.graphics.rectangle("fill", Player.x, Player.y, 50, 50)
---  Shot
-    love.graphics.rectangle("fill", Player.bullets[1].x, Player.bullets[1].y, 15, 25)
+    love.graphics.rectangle("fill", Player.x, Player.y, Player.width, Player.height)
+--  bullets
+    for _,v in pairs(Player.bullets) do
+        love.graphics.rectangle("fill", v.x, v.y, 15, 25)
+    end
 --  Enemies
     if (Enemies[1].alive) then
         love.graphics.rectangle("line", Enemies[1].x, Enemies[1].y, 50, 50)
