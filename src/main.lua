@@ -15,13 +15,7 @@ function love.update(dt)
     Timer = Timer + dt
     Player:MovePlayer(dt)
     Player:Shoot(dt)
-    for i,v in pairs(EnemyManger.Enemies) do
-        if not v.alive then
-            table.remove(EnemyManger.Enemies,i)
-        else
-            v:Attack(dt, Player)
-        end
-    end
+    EnemyManger:Invade(dt, Player)
 end
 
 function love.draw()

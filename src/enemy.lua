@@ -82,10 +82,15 @@ function EnemyModule.EnemyManager:GenerateNewEnemy()
     table.insert(self.Enemies, EnemyModule.Enemy:new())
 end
 
--- Perform Attack function to all Enemies in the Enemies array
+-- Remove dead Enemies & perform Attack function in alive enemies in the Enemies array
 function EnemyModule.EnemyManager:Invade(deltaTime, Player)
-    for _,v in pairs(self.Enemies) do
-        v:Attack(deltaTime, Player)
+    for i,v in pairs(EnemyManger.Enemies) do
+        if not v.alive then
+            table.remove(EnemyManger.Enemies,i)
+        else
+            v:Attack(deltaTime, Player)
+        end
     end
 end
+
 return EnemyModule
