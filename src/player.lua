@@ -19,7 +19,7 @@ PlayerModule.Player.bulletSpeed = 400
 PlayerModule.Player.speed = 400
 PlayerModule.Player.width = 50
 PlayerModule.Player.height = 50
-
+PlayerModule.Player.lives = 3
 -- Functions
 
 -- Player initializer
@@ -30,6 +30,14 @@ function PlayerModule.Player:new(posX, posY)
     return instance
 end
 
+function PlayerModule.Player:HasHitBullet(EnemyManger)
+    for _,v in pairs(EnemyManger.bullets) do
+        if (DetectCollision(v.x, 15, v.y, 25, self.x, 50, self.y, 50)) then
+            v.y = ScreenHeight + 120
+            self.lives = self.lives - 1
+        end
+    end
+end
 -- Move the Player depending on input & position
 function PlayerModule.Player:MovePlayer(deltaTime)
 --  Incase that the player is offscreen teleport him to the other side

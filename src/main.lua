@@ -23,6 +23,7 @@ end
 function love.update(dt)
     Timer = Timer + dt
     Player:MovePlayer(dt)
+    Player:HasHitBullet(EnemyManger)
     Player:Shoot(dt)
     EnemyManger:Invade(dt, Player)
 end
