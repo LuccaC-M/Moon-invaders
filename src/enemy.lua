@@ -29,9 +29,10 @@ function EnemyModule.Enemy:new(posX, posY)
     return instance
 end
 
+-- Creates a bullet if the number is true
 function EnemyModule.Enemy:Shoot()
---  0.02% probability of enemy shooting per frame
-    if math.random(1, 5000) == 1 then
+--  probability of enemy shooting per frame
+    if math.random(1, 1500) == 1 then
         return PointModule.Point:new(self.x + 20, self.y)
     else
         return nil
@@ -83,11 +84,11 @@ EnemyModule.EnemyManager.__index = EnemyModule.EnemyManager
 
 -- Variables
 EnemyModule.EnemyManager.Enemies = {}
-EnemyModule.EnemyManager.EnemiesInY = 5
-EnemyModule.EnemyManager.EnemiesInX = 11
+EnemyModule.EnemyManager.EnemiesInY = 4
+EnemyModule.EnemyManager.EnemiesInX = 8
 EnemyModule.EnemyManager.EnemySpeed = 75
 EnemyModule.EnemyManager.bullets = {}
-EnemyModule.EnemyManager.BulletSpeed = 5
+EnemyModule.EnemyManager.BulletSpeed = 300
 -- Functions
 -- Initializer
 function EnemyModule.EnemyManager:new()
@@ -113,14 +114,14 @@ function EnemyModule.EnemyManager:StartNewLevel()
         local posY = ScreenHeight / 100
         for _=0, self.EnemiesInY-1 do
             posY = posY + 100
-            self:GenerateNewEnemy(i + (100*i), posY)
+            self:GenerateNewEnemy(ScreenWidth / (self.EnemiesInX / 2) + (100*i), posY)
         end
     end
 end
 
 function EnemyModule.EnemyManager:MoveBullets(deltaTime)
     for i,v in pairs(self.bullets) do
-        if v.y > ScreenHeight then
+        if v.y > ScreenHeight or v == nil then
             table.remove(self.bullets, i)
         else
             v.y = v.y + self.BulletSpeed * deltaTime
@@ -141,7 +142,7 @@ function EnemyModule.EnemyManager:Invade(deltaTime, Player)
             table.remove(EnemyManger.Enemies,i)
             self.EnemySpeed = math.min(self.EnemySpeed + 5, 250)
         else
-            shouldGoDown, self.bullets[i] = v:Attack(deltaTime, Player, self.EnemySpeed)
+            shouldGoDown, self.bullets[#self.bullets + 1] = v:Attack(deltaTime, Player, self.EnemySpeed)
             if shouldGoDown then
                 self:EnemiesGoDown()
             end
