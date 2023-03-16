@@ -52,7 +52,7 @@ function love.draw()
         love.graphics.line(-10, ScreenHeight-40, ScreenWidth+10, ScreenHeight-40)
     end
     if (PlayerHasLost) then
-        love.graphics.print("You Lose")
+        love.graphics.print("You Lost!", ScreenWidth/2, ScreenHeight/2, 0, 2, 2)
     end
 end
 
