@@ -24,28 +24,33 @@ function love.update(dt)
     Timer = Timer + dt
     Player:MovePlayer(dt)
     Player:HasHitBullet(EnemyManger)
+    if (Player.lives <= 0) then
+        PlayerHasLost = true
+    end
     Player:Shoot(dt)
     EnemyManger:Invade(dt, Player)
 end
 
 function love.draw()
---  Player
-    love.graphics.rectangle("fill", Player.x, Player.y, Player.width, Player.height)
---  bullets
---  Player bullets
-    for _,v in pairs(Player.bullets) do
-        love.graphics.rectangle("fill", v.x, v.y, 15, 25)
+    if not PlayerHasLost then
+    --  Player
+        love.graphics.rectangle("fill", Player.x, Player.y, Player.width, Player.height)
+    --  bullets
+    --  Player bullets
+        for _,v in pairs(Player.bullets) do
+            love.graphics.rectangle("fill", v.x, v.y, 15, 25)
+        end
+    --  Enemies bullets
+        for _,v in pairs(EnemyManger.bullets) do
+            love.graphics.rectangle("fill", v.x, v.y, 15, 25)
+        end
+    --  Enemies
+        for _,v in pairs(EnemyManger.Enemies) do
+            love.graphics.rectangle("line", v.x, v.y, 50, 50)
+        end
+    --  Floor
+        love.graphics.line(-10, ScreenHeight-40, ScreenWidth+10, ScreenHeight-40)
     end
---  Enemies bullets
-    for _,v in pairs(EnemyManger.bullets) do
-        love.graphics.rectangle("fill", v.x, v.y, 15, 25)
-    end
---  Enemies
-    for _,v in pairs(EnemyManger.Enemies) do
-        love.graphics.rectangle("line", v.x, v.y, 50, 50)
-    end
---  Floor
-    love.graphics.line(-10, ScreenHeight-40, ScreenWidth+10, ScreenHeight-40)
     if (PlayerHasLost) then
         love.graphics.print("You Lose")
     end
