@@ -20,6 +20,7 @@ PlayerModule.Player.speed = 400
 PlayerModule.Player.width = 50
 PlayerModule.Player.height = 50
 PlayerModule.Player.lives = 3
+PlayerModule.Player.score = 0
 -- Functions
 
 -- Player initializer
