@@ -90,6 +90,7 @@ EnemyModule.EnemyManager.EnemiesInX = 8
 EnemyModule.EnemyManager.EnemySpeed = 75
 EnemyModule.EnemyManager.bullets = {}
 EnemyModule.EnemyManager.BulletSpeed = 300
+EnemyModule.EnemyManager.round = 0
 -- Functions
 -- Initializer
 function EnemyModule.EnemyManager:new()
@@ -111,6 +112,7 @@ end
 
 function EnemyModule.EnemyManager:StartNewLevel()
     self.EnemySpeed = 75
+    self.round = self.round + 1
     for i = 0, self.EnemiesInX-1 do
         local posY = ScreenHeight / 100
         for _=0, self.EnemiesInY-1 do
