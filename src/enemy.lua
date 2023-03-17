@@ -53,6 +53,7 @@ function EnemyModule.Enemy:Attack(deltaTime, Player, EnemySpeed)
     --  if the shot collides with the Enemy then kill the Enemy
         if (DetectCollision(v.x, 15, v.y, 25, self.x, 50, self.y, 50)) then
             self.alive = false
+            Player.score = Player.score + 100
             v.y = -100
             self.x = 10000
             self.y = 10000
