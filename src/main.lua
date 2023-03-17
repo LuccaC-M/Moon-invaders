@@ -33,6 +33,10 @@ end
 
 function love.draw()
     if not PlayerHasLost then
+    --  Print info
+        love.graphics.print({"Lives: ", Player.lives}, 10, 10, 0, 1.2, 1.2)
+        love.graphics.print({"Score: ", Player.score}, 10, 30, 0, 1.2, 1.2)
+        love.graphics.print({"Round: ", EnemyManger.round}, 10, 50, 0, 1.2, 1.2)
     --  Player
         love.graphics.rectangle("fill", Player.x, Player.y, Player.width, Player.height)
     --  bullets
